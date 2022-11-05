@@ -1,10 +1,9 @@
 # -*- coding: UTF-8 -*-
-import requests
+from Lib.Network import Network as requests
 import logging
 import json
 # import base64
 
-requests.packages.urllib3.disable_warnings()
 
 LOG = logging.getLogger("PIXIV")
 LOG.setLevel(logging.ERROR)
@@ -20,9 +19,10 @@ header = {
 
 class SESSION():
     def __init__(self):
-        self.session = requests.Session()
-        self.session.trust_env = False
-        self.session.keep_alive = False
+        self.session = requests({
+            "www.pixiv.net": {
+                "ip": "210.140.92.187"
+            }})
 
     def get(self, url, JSON=True):
         r = self.session.get(url, headers=header, verify=False)

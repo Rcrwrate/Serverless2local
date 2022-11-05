@@ -1,5 +1,5 @@
 import threading
-import requests
+from Lib.Network import Network as SESSION
 import json
 import random
 
@@ -16,9 +16,10 @@ class SEThread(threading.Thread):
         self.pid = pid
 
     def run(self):
-        self.session = requests.Session()
-        self.session.trust_env = False
-        self.session.keep_alive = False
+        self.session = SESSION({
+            "www.pixiv.net": {
+                "ip": "210.140.92.187"
+            }})
         url = "https://www.pixiv.net/ajax/illust/{}".format(str(self.pid))
         r = self.session.get(url, headers=header)
         r = r.text.replace("i.pximg.net", "i.pixiv.re")

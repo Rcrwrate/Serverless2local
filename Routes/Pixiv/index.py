@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 import json
-from method import METHOD
+from .method import METHOD
+from Controler.Plugin import Manager
 
 
 def get_qs(qs, key):
@@ -25,8 +26,8 @@ def main_handler(event, context):
             "body": json.dumps(r)
         }
 
-
-def main(event, context):
+@Manager.registerEvent("/PIXIV")
+def main(event):
     path = event["path"]
     query = event["queryString"]
     if path == "/PIXIV/illust":
@@ -74,7 +75,7 @@ def main(event, context):
             "body": json.dumps(fin)
         }
     elif path == "/PIXIV/search":
-        from more_session import fast_2_get
+        from .more_session import fast_2_get
         word = get_qs(query, "word")
         level = get_qs(query, "level")
         if level:
@@ -141,11 +142,11 @@ def main(event, context):
             word = transed
         elif page == False:
             page = 2
-        from Pixic import Pixivic
+        from .Pixic import Pixivic
         pixic = Pixivic()
         fin = pixic.auto_search(word=word, page=page)
         if get_qs(query, "random"):
-            from more_session import fast_2_get
+            from .more_session import fast_2_get
             fin = fast_2_get(fin)
         return {
             "isBase64Encoded": False,
@@ -154,7 +155,7 @@ def main(event, context):
             "body": json.dumps(fin)
         }
     elif path == "/PIXIV/login":
-        from Pixic import Pixivic
+        from .Pixic import Pixivic
         pixic = Pixivic()
         pixic.refresh_AU()
         return {
@@ -171,7 +172,7 @@ def main(event, context):
             "body": json.dumps({"0": "i.pixiv.re", "1": "p.kirin.workers.dev", "2": "proxy.pixivel.moe", "3": "pximg.obfs.dev", "4": "pximg.moonchan.xyz"})
         }
     elif path == "/PIXIV/setu":
-        from callback import SETU
+        from .callback import SETU
         return {
             "isBase64Encoded": False,
             "statusCode": 200,
