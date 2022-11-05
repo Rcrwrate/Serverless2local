@@ -38,6 +38,11 @@ def debug(msg):
         "body": json.dumps(msg)
     }
 ```
+### 具体示例说明
+
+[传送门](https://github.com/Rcrwrate/Serverless2local/blob/PIXIV/README.md)
+
+此为我一个基于腾讯云函数服务事件函数的PIXIV API
 
 ## 错误处理
 
