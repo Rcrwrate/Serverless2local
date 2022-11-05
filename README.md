@@ -12,4 +12,5 @@
 https://github.com/Rcrwrate/Serverless2local/commit/bbb1b74bcc1d10d83c56cd9b5e84787f61f4cf93
 
 https://github.com/Rcrwrate/Serverless2local/commit/ec302b262cf2f60bf315389b9f58e26731c21313
+
 可以直接在国内进行部署，**如果要部署在国外，请撤销本次修改**
