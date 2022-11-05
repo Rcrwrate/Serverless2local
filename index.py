@@ -2,9 +2,6 @@ from Controler.Plugin import Manager
 from Lib.log import Log
 import re
 
-Manager.register("Routes.debug")
-Manager.register("Routes.err")
-Manager.register("Routes.base64")
 Manager.register("Routes.Pixiv.index")
 
 
