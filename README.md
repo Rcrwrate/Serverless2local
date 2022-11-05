@@ -6,7 +6,7 @@
 
 所以，搞了个这个
 
-## 说明
+## 基础说明
 
 `Flask.py`是启动文件，里头还有一大堆未引用的import，我个人对Flask不是很熟悉，届时会改
 
@@ -23,6 +23,22 @@ Manager.register("Routes.base64")
 
 和import一致的调用方式，简单粗暴加载你的API
 
+## 插件编写简易说明
+
+```
+from Controler.Plugin import Manager
+import json
+
+@Manager.registerEvent("/debug")            #注册API路径
+def debug(msg):
+    return {                                #返回值格式必须符合标准
+        "isBase64Encoded": False,           #目前True不支持(图片)
+        "statusCode": 200,
+        "headers": {"Content-Type": "application/json"},
+        "body": json.dumps(msg)
+    }
+```
+
 ## 错误处理
 
 在程序顶层会将所有错误进行拦截，当然你也可以在插件中拦截你的错误
@@ -38,3 +54,7 @@ Manager.register("Routes.base64")
 `Lib/Network.py`简单的去SNI访问工具，SNI前置，这不就是用来直连EX，啊不，EH，啊不，Pixiv的吗
 
 温习提示：虽然说SNI能访问了，但是请确保你的访问稳定且快速，不然体验可不好
+
+## 已知问题
+
+1. `isBase64Encoded`为True的情况(设计中仅仅为了显示图片)无法正常回应
