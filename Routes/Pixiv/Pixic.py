@@ -21,8 +21,8 @@ header = {
     "sec-fetch-site": "cross-site",
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36 Edg/101.0.1210.39"
 }
-# BASEAPI = "https://api.huisq.site"
-BASEAPI = "https://api.phantom-sea-limited.ltd/Pixic"
+BASEAPI = "https://api.huisq.site"
+# BASEAPI = "https://api.phantom-sea-limited.ltd/Pixic"
 
 
 class Pixivic():
