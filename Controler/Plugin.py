@@ -1,5 +1,6 @@
 from Lib.log import Log
-l = Log("Plugin", log_level=40).Log()
+import traceback
+l = Log("Plugin", log_level=40)
 
 
 class Plugin():
@@ -10,7 +11,7 @@ class Plugin():
         try:
             __import__(path)
         except Exception as e:
-            l.error(f"[Register][ERROR]\t\t{path} Load Failed\t\t{e.args}")
+            l.error(f"[Register][ERROR]\t\t{path} Load Failed\t\t{e.args}\n{traceback.format_exc()}")
         else:
             l.info(f"[Register][INFO]\t\t{path} Load Success")
 

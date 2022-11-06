@@ -1,20 +1,22 @@
 from Controler.Plugin import Manager
 from Lib.log import Log
 import re
+import traceback
 
 Manager.register("Routes.Pixiv.index")
 
-l = Log("Router", log_level=40).Log()
+l = Log("Router", log_level=40)
+
 
 def main(message):
     for i in Manager.Plugin:
         # if i in message["path"]:
-        if check(i,message["path"]):
+        if check(i, message["path"]):
             func = Manager.Plugin[i]
             try:
                 return func(message)
             except Exception as err:
-                l.error(f"[Router][ERROR]\t\t{func}\t\t{err.args}")
+                l.error(f"[Router][ERROR]\t\t{func}\t\t{err.args}\n{traceback.format_exc()}")
                 return {
                     "isBase64Encoded": False,
                     "statusCode": 500,

@@ -1,5 +1,5 @@
 import requests
-import logging
+from .log import Log
 import os
 import ssl
 ssl.HAS_SNI = False
@@ -30,7 +30,7 @@ def get_qs(qs, key):
 
 
 class Network():
-    def __init__(self, hostTips: dict, log_path=".log", log_level=logging.INFO, proxies={"http": None, "https": None}) -> None:
+    def __init__(self, hostTips: dict, log_path=".log", log_level=20, proxies={"http": None, "https": None}) -> None:
         '''
         hostTips = {
             "office.com": {
@@ -44,13 +44,7 @@ class Network():
 
         if os.path.exists(log_path) != True:
             os.mkdir(log_path)
-        self.LOG = logging.getLogger("Net")
-        self.LOG.setLevel(log_level)
-        F = logging.FileHandler(os.path.join(
-            f"{log_path}", "Network.log"), "a", encoding="utf-8")
-        F.setFormatter(logging.Formatter('%(asctime)s:%(message)s'))
-        self.LOG.removeHandler(F)
-        self.LOG.addHandler(F)
+        self.LOG = Log("Network", log_level=20)
 
         self.s = requests.session()
         self.s.trust_env = False
