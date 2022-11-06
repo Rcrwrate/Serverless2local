@@ -10,7 +10,9 @@
 
 `Flask.py`是启动文件，里头还有一大堆未引用的import，我个人对Flask不是很熟悉，届时会改
 
-API的编写是模块化的，你可以任意在什么文件夹下编写或搬迁你的API，此处位于`Routes`
+API的编写是模块化的，你可以任意在什么文件夹下编写或搬迁你的API，此处位于`Routes`(为什么不是Routers，因为第一次的时候拼错了，就懒得改了)
+
+![](https://i.imgur.com/tbDbT9t.jpg)
 
 API注册可以在任何被执行的文件中注入，此处位于`index.py`如下所示:
 
