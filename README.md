@@ -63,3 +63,5 @@ def debug(msg):
 ## 已知问题
 
 1. `isBase64Encoded`为True的情况(设计中仅仅为了显示图片)无法正常回应
+2. 尚不支持POST请求
+3. 暂且没有GET、POST以外的请求支持计划
