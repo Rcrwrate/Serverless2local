@@ -46,8 +46,8 @@ class Network():
             os.mkdir(log_path)
         self.LOG = logging.getLogger("Net")
         self.LOG.setLevel(log_level)
-        F = logging.FileHandler(
-            f"{log_path}\\Network.log", "a", encoding="utf-8")
+        F = logging.FileHandler(os.path.join(
+            f"{log_path}", "Network.log"), "a", encoding="utf-8")
         F.setFormatter(logging.Formatter('%(asctime)s:%(message)s'))
         self.LOG.addHandler(F)
 
