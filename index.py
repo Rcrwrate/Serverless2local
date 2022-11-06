@@ -18,7 +18,8 @@ def main(message):
             try:
                 return func(message)
             except Exception as err:
-                l.error(f"[Router][ERROR]\t\t{func}\t\t{err.args}\n{traceback.format_exc()}")
+                l.error(
+                    f"[Router][ERROR]\t\t{func}\t\t{err.args}\n{traceback.format_exc()}")
                 return {
                     "isBase64Encoded": False,
                     "statusCode": 500,

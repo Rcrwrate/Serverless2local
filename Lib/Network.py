@@ -30,7 +30,7 @@ def get_qs(qs, key):
 
 
 class Network():
-    def __init__(self, hostTips: dict, log_path=".log", log_level=logging.INFO, proxies={"http": None, "https": None}) -> None:
+    def __init__(self, hostTips: dict, log_path=".log", log_level=20, proxies={"http": None, "https": None}) -> None:
         '''
         hostTips = {
             "office.com": {
