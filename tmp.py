@@ -5,3 +5,10 @@
 import re
 a = re.search("^/api","/apidaw").group(0)
 print(a)
+from Lib.log import Log
+l = Log("Router", log_level=40)
+l.error("err")
+l = Log("Router", log_level=40)
+l.error("err")
+l = Log("Router", log_level=40)
+l.error("err")

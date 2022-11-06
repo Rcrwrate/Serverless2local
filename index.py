@@ -1,12 +1,13 @@
 from Controler.Plugin import Manager
 from Lib.log import Log
 import re
+import traceback
 
 Manager.register("Routes.debug")
 Manager.register("Routes.err")
 Manager.register("Routes.base64")
 
-l = Log("Router", log_level=40).Log()
+l = Log("Router", log_level=40)
 
 
 def main(message):
@@ -17,7 +18,7 @@ def main(message):
             try:
                 return func(message)
             except Exception as err:
-                l.error(f"[Router][ERROR]\t\t{func}\t\t{err.args}")
+                l.error(f"[Router][ERROR]\t\t{func}\t\t{err.args}\n{traceback.format_exc()}")
                 return {
                     "isBase64Encoded": False,
                     "statusCode": 500,
