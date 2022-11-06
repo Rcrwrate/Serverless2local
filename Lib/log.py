@@ -11,6 +11,7 @@ class Log():
         path = os.path.join(f"{log_path}",f"{name}.log")
         F = logging.FileHandler(path, "a", encoding="utf-8")
         F.setFormatter(logging.Formatter('%(asctime)s:%(message)s'))
+        self.LOG.removeHandler(F)
         self.LOG.addHandler(F)
 
     def Log(self):

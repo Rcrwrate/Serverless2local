@@ -6,12 +6,13 @@ Manager.register("Routes.debug")
 Manager.register("Routes.err")
 Manager.register("Routes.base64")
 
+l = Log("Router", log_level=40).Log()
+
 
 def main(message):
-    l = Log("Router", log_level=40).Log()
     for i in Manager.Plugin:
         # if i in message["path"]:
-        if check(i,message["path"]):
+        if check(i, message["path"]):
             func = Manager.Plugin[i]
             try:
                 return func(message)

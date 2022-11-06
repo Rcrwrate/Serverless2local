@@ -49,6 +49,7 @@ class Network():
         F = logging.FileHandler(os.path.join(
             f"{log_path}", "Network.log"), "a", encoding="utf-8")
         F.setFormatter(logging.Formatter('%(asctime)s:%(message)s'))
+        self.LOG.removeHandler(F)
         self.LOG.addHandler(F)
 
         self.s = requests.session()
