@@ -3,7 +3,16 @@ import os
 
 
 class Log():
-    def __init__(self, name, log_level=logging.INFO, log_path=".log") -> None:
+    CRITICAL = 50
+    FATAL = CRITICAL
+    ERROR = 40
+    WARNING = 30
+    WARN = WARNING
+    INFO = 20
+    DEBUG = 10
+    NOTSET = 0
+
+    def __init__(self, name, log_level=INFO, log_path=".log") -> None:
         if os.path.exists(log_path) != True:
             os.mkdir(log_path)
         self.LOG = logging.getLogger(name)
@@ -13,6 +22,11 @@ class Log():
         self.F.setFormatter(logging.Formatter('%(asctime)s:%(message)s'))
         self.LOG.removeHandler(self.F)
         self.LOG.addHandler(self.F)
+
+    def enable(self):
+        T = logging.StreamHandler()
+        self.LOG.removeHandler(T)
+        self.LOG.addHandler(T)
 
     def Log(self):
         return self.LOG
