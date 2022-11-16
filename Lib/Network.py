@@ -1,6 +1,5 @@
 import requests
 from .log import Log
-import os
 import ssl
 ssl.HAS_SNI = False
 requests.packages.urllib3.disable_warnings()
@@ -42,9 +41,7 @@ class Network():
         }
         '''
 
-        if os.path.exists(log_path) != True:
-            os.mkdir(log_path)
-        self.LOG = Log("Network", log_level=20)
+        self.LOG = Log("Network", log_level=log_level, log_path=log_path)
 
         self.s = requests.session()
         self.s.trust_env = False
@@ -69,6 +66,34 @@ class Network():
         try:
             self.LOG.debug(
                 f"[GET][DEBUG]\t\t{h}\n"+"\t"*11 + f"{r.headers}\n" + "\t"*11 + f"{r.text}")
+        except Exception:
+            pass
+        return r
+
+    def post(self, url, data=False, json={}, headers=False, noDefaultHeader=False, changeDefaultHeader=False, verify=False, **kwargs):
+        h = Header.headerchange(headers, noDefaultHeader, changeDefaultHeader)
+        domain = url.split("/")[2]
+        conf = get_qs(self.table, domain)
+        if conf != False:
+            ip = get_qs(conf, "ip")
+            if ip:
+                url = url.replace(domain, ip)
+                h["host"] = domain
+        try:
+            if data == False:
+                r = self.s.post(url, json=json, headers=h,
+                                verify=False, **kwargs)
+                data = json
+            else:
+                r = self.s.post(url, data=data, headers=h,
+                                verify=False, **kwargs)
+        except Exception as e:
+            self.LOG.error(f"[POST][ERROR]\t\t{url}\t{domain}\t{e.args}")
+            raise Exception(e.args)
+        self.LOG.info(f"[POST][INFO]\t\t{r.status_code}\t{r.url}\t{domain}")
+        try:
+            self.LOG.debug(
+                f"[POST][DEBUG]\t\t{h}\n"+"\t"*11 + f"{r.headers}\n" + "\t"*11 + f"{data}\n" + "\t"*11 + f"{r.text}")
         except Exception:
             pass
         return r
