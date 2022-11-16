@@ -75,14 +75,15 @@ def main(event):
             "body": json.dumps(fin)
         }
     elif path == "/PIXIV/search":
-        from .more_session import fast_2_get
-        word = get_qs(query, "word")
+        from more_session import fast_2_get
+        word = get_qs(query, "word").split("+")
         level = get_qs(query, "level")
         if level:
             level = int(level)
         else:
             level = 0
         met = METHOD()
+        word = met.translate_list(word)
         r = met.normal_search(level, word)
         if len(r["body"]["illustManga"]["data"]) == 0:
             r = met.normal_search(level, word, s_mode="s_tc")
@@ -131,22 +132,27 @@ def main(event):
             "body": json.dumps(fin)
         }
     elif path == "/PIXIV/pixic":
-        word = get_qs(query, "word")
+        word = get_qs(query, "word").split("+")
         page = get_qs(query, "page")
         met = METHOD()
-        transed = met.translate(word)
-        if transed != False and page == False:
-            word = transed
-            page = 5
-        elif transed != False and page != False:
-            word = transed
-        elif page == False:
-            page = 2
-        from .Pixic import Pixivic
+        if len(word) == 1:
+            transed = met.translate(word[0])
+            if transed != False and page == False:
+                word = transed
+                page = 3
+            elif transed != False and page != False:
+                word = transed
+            elif page == False:
+                page = 2
+                word = word[0]
+        else:
+            word = met.translate_list(word)
+            page = 1
+        from Pixic import Pixivic
         pixic = Pixivic()
         fin = pixic.auto_search(word=word, page=page)
         if get_qs(query, "random"):
-            from .more_session import fast_2_get
+            from more_session import fast_2_get
             fin = fast_2_get(fin)
         return {
             "isBase64Encoded": False,
@@ -154,8 +160,17 @@ def main(event):
             "headers": {"Content-Type": "text/json"},
             "body": json.dumps(fin)
         }
+    elif path == "/PIXIV/test":
+        met = METHOD()
+        word = get_qs(query, "word").split("+")
+        return {
+            "isBase64Encoded": False,
+            "statusCode": 200,
+            "headers": {"Content-Type": "text/json"},
+            "body": met.translate_list(word)
+        }
     elif path == "/PIXIV/login":
-        from .Pixic import Pixivic
+        from Pixic import Pixivic
         pixic = Pixivic()
         pixic.refresh_AU()
         return {
@@ -172,7 +187,7 @@ def main(event):
             "body": json.dumps({"0": "i.pixiv.re", "1": "p.kirin.workers.dev", "2": "proxy.pixivel.moe", "3": "pximg.obfs.dev", "4": "pximg.moonchan.xyz"})
         }
     elif path == "/PIXIV/setu":
-        from .callback import SETU
+        from callback import SETU
         return {
             "isBase64Encoded": False,
             "statusCode": 200,
