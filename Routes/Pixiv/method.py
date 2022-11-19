@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from session import SESSION
+from .session import SESSION
 
 
 class METHOD():
@@ -58,7 +58,8 @@ class METHOD():
         url = "https://www.pixiv.net/ajax/search/artworks/{0}?word={0}&order=date_d&mode=all&p=1&s_mode={1}&type=illust_and_ugoira&lang=zh".format(
             search, s_mode)
         r = self.session.get(url)
-        r["body"]["illustManga"]["data"] = self.Filtering_NO_COMIC(r["body"]["illustManga"]["data"])
+        r["body"]["illustManga"]["data"] = self.Filtering_NO_COMIC(
+            r["body"]["illustManga"]["data"])
         return r
 
     def old_ranking(self, type="daily", TOP=False):
@@ -84,8 +85,9 @@ class METHOD():
             return self.get_by_pid(PID)
         return r
 
-    def translate(self,word):
-        url = "https://www.pixiv.net/rpc/cps.php?keyword={}&lang=zh".format(word)
+    def translate(self, word):
+        url = "https://www.pixiv.net/rpc/cps.php?keyword={}&lang=zh".format(
+            word)
         r = self.session.get(url)
         for i in r["candidates"]:
             if i["type"] == "tag_translation":
@@ -93,7 +95,7 @@ class METHOD():
                     return i["tag_name"]
         return False
 
-    def translate_list(self,word):
+    def translate_list(self, word):
         w = ""
         for i in word:
             tr = self.translate(i)
@@ -104,23 +106,25 @@ class METHOD():
         return w
 
     @staticmethod
-    def Filtering_NO_COMIC(L:list):
+    def Filtering_NO_COMIC(L: list):
         '''输入必须是列表'''
         O = []
-        BAN = ["漫画","漫画素材工房","R18","R-18"]
+        BAN = ["漫画", "漫画素材工房", "R18", "R-18"]
         for i in L:
             if [item for item in i["tags"] if item not in BAN] == i["tags"]:
                 O.append(i)
         return O
-    
+
     def random_ranking(self):
         import time
         import random
         TIME = list(time.localtime())[0:3]
         if TIME[2] == 1:
-            DATA = str(random.randint(2016,TIME[0])) + str(random.randint(1,TIME[1])).zfill(2) + str(1).zfill(2)
+            DATA = str(random.randint(
+                2016, TIME[0])) + str(random.randint(1, TIME[1])).zfill(2) + str(1).zfill(2)
         else:
-            DATA = str(random.randint(2016,TIME[0])) + str(random.randint(1,TIME[1])).zfill(2) + str(random.randint(1,TIME[2]-1)).zfill(2)
+            DATA = str(random.randint(2016, TIME[0])) + str(random.randint(
+                1, TIME[1])).zfill(2) + str(random.randint(1, TIME[2]-1)).zfill(2)
         fin = self.ranking(date=DATA)
         id = random.choice(fin["contents"])["illust_id"]
         return self.get_by_pid(id)
@@ -133,5 +137,5 @@ class METHOD():
 
 if __name__ == "__main__":
     met = METHOD()
-    
+
     print(met.random_ranking())
